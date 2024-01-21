@@ -7,12 +7,10 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.shoppinglistapp.R
 import com.example.shoppinglistapp.domain.ShopItem
 
-class ShopListAdapter :
-    ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallback()) {
+class ShopListAdapter : ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallback()) {
 
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
         val layout = when (viewType) {
@@ -22,15 +20,6 @@ class ShopListAdapter :
         }
         val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
         return ShopItemViewHolder(view)
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        val item = getItem(position)
-        return if (item.enabled) {
-            VIEW_TYPE_ENABLED
-        } else {
-            VIEW_TYPE_DISABLED
-        }
     }
 
     override fun onBindViewHolder(viewHolder: ShopItemViewHolder, position: Int) {
@@ -46,10 +35,20 @@ class ShopListAdapter :
         viewHolder.tvCount.text = shopItem.count.toString()
     }
 
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        return if (item.enabled) {
+            VIEW_TYPE_ENABLED
+        } else {
+            VIEW_TYPE_DISABLED
+        }
+    }
+
     companion object {
+
         const val VIEW_TYPE_ENABLED = 100
         const val VIEW_TYPE_DISABLED = 101
 
-        const val MAX_PULL_SIZE = 15
+        const val MAX_POOL_SIZE = 30
     }
 }
